@@ -1,10 +1,10 @@
-## Grafana SDK ##
+package gografana
 
-根据Grafana Api相关文档封装
-### 接口说明
-
-```go
-// 文件所在位置：grafanaex/igrafana.go
+import (
+	"github.com/xm-chentl/go-grafana/charttype"
+	"github.com/xm-chentl/go-grafana/datasourcetype"
+	"github.com/xm-chentl/go-grafana/targetformat"
+)
 
 // IDashboard 仪表盘接口
 type IDashboard interface {
@@ -21,9 +21,8 @@ type IFolder interface {
 type IGenerate interface {
 	Generate() (string, error)
 }
-
 type IDashboardPanelFactory interface {
-	Build(dbtype.Value, charttype.Value) IDashboardPanel
+	Build(datasourcetype.Value, charttype.Value) IDashboardPanel
 }
 
 // IDashboardPanel 仪表盘图表接口
@@ -34,6 +33,7 @@ type IDashboardPanel interface {
 	AddThreshold(...DashboardPanelThreshold)
 	AddOverride(...DashboardPanelOverride)
 	SetInfo(id int32, title string)
+	SetYAxes(*DashboardPanelYAxes)
 }
 
 // IDashboardPanelTarget  仪表盘图表查询目标接口
@@ -53,11 +53,3 @@ type IGrafana interface {
 	SaveFolder(uid string, folderName string) (*ResponseCreateOrUpdateFolder, error)
 	PanelFactory() IDashboardPanelFactory
 }
-```
-
-### 示例
-
-```go
-
-grafanaInst := gografana.New(opt, )
-```
